@@ -13,11 +13,11 @@ def find_lines(vid):
    edges = cv2.Canny(blur, 500, 700, apertureSize=5)
 
    # https: //docs.opencv.org/4.x/d3/de6/tutorial_js_houghlines.html
-   lines = cv2.HoughLinesP(edges, 1, np.pi / 180, 300, minLineLength=100, maxLineGap=500)
+   lines = cv2.HoughLinesP(edges, 1, np.pi / 180, 300, minLineLength=100, maxLineGap=300)
 
    if lines is not None:
        angle_threshold = 10
-       intercept_threshold = 300
+       intercept_threshold = 100
        parallel_lines = []
        for line1 in lines:
            for line2 in lines:
@@ -33,7 +33,7 @@ def find_lines(vid):
                    angle1 = np.arctan(slope1) * 180 / np.pi
                    angle2 = np.arctan(slope2) * 180 / np.pi
 
-                   if abs(angle1-angle2) < angle_threshold and abs(intercept1 - intercept2) > intercept_threshold:
+                   if abs(angle1 - angle2) < angle_threshold and abs(intercept1 - intercept2) > intercept_threshold:
                        parallel_lines.append((line1, line2))
 
        for line1, line2 in parallel_lines:
@@ -65,4 +65,3 @@ while True:
 
 video.release()
 cv2.destroyAllWindows()
- 
