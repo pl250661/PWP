@@ -13,10 +13,10 @@ def find_lines(vid):
    edges = cv2.Canny(blur, 500, 700, apertureSize=5)
 
    # https: //docs.opencv.org/4.x/d3/de6/tutorial_js_houghlines.html
-   lines = cv2.HoughLinesP(edges, 1, np.pi / 180, 300, minLineLength=100, maxLineGap=300)
+   lines = cv2.HoughLinesP(edges, 1, np.pi / 180, 310, minLineLength=100, maxLineGap=300)
 
    if lines is not None:
-       angle_threshold = 80
+       angle_threshold = 10
        intercept_threshold = 100
        parallel_lines = []
        for line1 in lines:
@@ -35,7 +35,7 @@ def find_lines(vid):
 
                    if abs(angle1 + angle2) < angle_threshold and abs(intercept1 - intercept2) > intercept_threshold:
                        parallel_lines.append((line1, line2))
-                       print(f"y = {slope1}x + {intercept1}, y = {slope2}x + {intercept2}")
+                       print(f"y = {slope1}x + {intercept1} is {angle1}º, y = {slope2}x + {intercept2} is {angle2}º")
 
        for line1, line2 in parallel_lines:
            x1, y1, x2, y2 = line1[0]
@@ -47,7 +47,15 @@ def find_lines(vid):
                center_y_1 = (y1 + y3) // 2
                center_x_2 = (x2 + x4) // 2
                center_y_2 = (y2 + y4) // 2
+               center_slope = (center_y_2 - center_y_1) / (center_x_2 - center_x_1 + 0.0001)
+               if abs(center_slope) > 0.5:
+                   center_x_1 = (x2 + x3) // 2
+                   center_y_1 = (y2 + y3) // 2
+                   center_x_2 = (x1 + x4) // 2
+                   center_y_2 = (y1 + y4) // 2
+                   center_slope = (center_y_2 - center_y_1) / (center_x_2 - center_x_1 + 0.0001)
                cv2.line(vid, (center_x_1, center_y_1), (center_x_2, center_y_2), (0, 0, 255), 2)
+               print(f"CENTER LINE: y = {center_slope}x + {center_y_1 - center_slope * center_x_1}")
 
    return vid
 
