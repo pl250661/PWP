@@ -114,7 +114,6 @@ while True:
    x_offset = 1800
    y_offset = 50
 
-   rotated_arrow = cv2.rotate(arrow, cv2.ROTATE_90_COUNTERCLOCKWISE)
    arrow_resized = cv2.resize(arrow, (arrow_width, arrow_height))
    
    region_x_end = x_offset + arrow_resized.shape[1]
