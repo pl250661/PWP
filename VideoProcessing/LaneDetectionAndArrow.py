@@ -9,8 +9,8 @@ import cv2
 import numpy as np
 
 
-video = cv2.VideoCapture("/Users/Ipat/Downloads/the_stream.mov")
-arrow = cv2.imread("/Users/Ipat/Downloads/arrow.png", cv2.IMREAD_UNCHANGED)
+video = cv2.VideoCapture("/Users/pl250661/Downloads/the_stream.mov")
+arrow = cv2.imread("/Users/pl250661/Downloads/arrow.png", cv2.IMREAD_UNCHANGED)
 
 
 def image_process(vid):
